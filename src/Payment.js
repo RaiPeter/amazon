@@ -7,6 +7,7 @@ import CheckoutProduct from './CheckoutProduct';
 import './Payment.css'
 import { getBasketTotal } from './reducer';
 import { useStateValue } from './StateProvider';
+import { db } from './firebase';
 function Payment() {
     const [{basket, user}, dispatch] = useStateValue(); 
     const history = useHistory();
@@ -46,9 +47,24 @@ function Payment() {
            }
        }).then(({ paymentIntent }) => {
         // payment = payment configuration
+        db
+          .collection('users')
+          .doc(user?.uid)
+          .collection('orders')
+          .doc(paymentIntent.id)
+          .set({
+              basket: basket,
+              amount: paymentIntent.amount,
+              created: paymentIntent.created
+          })
+
         setSucceeded(true);
         setError(null);
         setProcessing(false);
+
+        dispatch({
+            type:'EMPTY_BASKET'
+        })
 
         history.replace('/orders')
        })
@@ -132,4 +148,4 @@ function Payment() {
     )
 }
 
-export default Payment
+export default Payment                                                                                  
