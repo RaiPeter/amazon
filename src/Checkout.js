@@ -17,13 +17,14 @@ function Checkout() {
             {/*checkoutproducts*/}
             
             {basket.map(item => (
-                <CheckoutProduct
+                    <CheckoutProduct key={item}
                     id={item.id}
                     title={item.title}
                     image={item.image}
                     price={item.price}
                     rating={item.rating}
                 />
+            
             ))}
 
            </div>
