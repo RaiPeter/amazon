@@ -5,7 +5,7 @@ import './Orders.css';
 import { useStateValue } from './StateProvider';
 
 function Orders() {
-    const [{basket, user}, dispatch] = useStateValue();
+    const [{ basket, user}, dispatch] = useStateValue();
     const [orders, setOrders] = useState([]);
 
     useEffect(()=>{
@@ -15,16 +15,16 @@ function Orders() {
           .doc(user?.uid)
           .collection('orders')
           .orderBy('created', 'desc')
-          .onSnapshot(snapshot =>{
-              snapOrders(snapshot.docs.map(doc=>({
+          .onSnapshot(snapshot =>(
+              setOrders(snapshot.docs.map(doc=>({
                   id: doc.id,
                   data: doc.data()
               })))
-          })
+          ))
         }else{
             setOrders([])
         }
-    }, [])
+    }, [user])
     return (
         <div className="orders">
             {orders?.map(order =>(

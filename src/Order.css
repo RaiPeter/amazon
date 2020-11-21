@@ -7,7 +7,8 @@
 }
 .order__id{
     position: absolute;
-    text-outline: 40px;
+    top: 40px;
+    right: 20px;
 }
 .order__total{
     font-weight: 500;
